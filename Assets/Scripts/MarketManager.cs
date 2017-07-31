@@ -89,7 +89,7 @@ public class MarketManager : MonoBehaviour {
                 }
             }
 
-            jobTile.transform.parent = jobHolder;
+            jobTile.transform.SetParent(jobHolder);
 
             i++;
         }
