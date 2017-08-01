@@ -140,8 +140,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 355.8, y: 364.70007}
-  m_SizeDelta: {x: 160, y: 60}
+  m_AnchoredPosition: {x: 415.8, y: 364.70007}
+  m_SizeDelta: {x: 100, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &43324991
 MonoBehaviour:
@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 69815271}
   - component: {fileID: 69815270}
   m_Layer: 0
-  m_Name: MarketManager
+  m_Name: Market UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,7 +206,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 69815269}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c282c03982621c244bd94b064a3f3187, type: 3}
+  m_Script: {fileID: 11500000, guid: 33dcf191bea88e14d829cbd069908a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   jobTilePrefab: {fileID: 1620483916058128, guid: 11b603eddb03c714c89afb4a1b3cc14d,
@@ -798,6 +798,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dateText: {fileID: 2113203930}
+  moneyText: {fileID: 43324991}
+  jobManager: {fileID: 0}
+  employeeManager: {fileID: 0}
 --- !u!4 &1271675531
 Transform:
   m_ObjectHideFlags: 0
@@ -1170,8 +1173,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 515, y: 364.7}
-  m_SizeDelta: {x: 160, y: 60}
+  m_AnchoredPosition: {x: 530.6, y: 364.7}
+  m_SizeDelta: {x: 120, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2113203930
 MonoBehaviour:
