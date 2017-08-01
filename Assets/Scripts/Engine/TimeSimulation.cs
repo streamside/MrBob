@@ -1,41 +1,25 @@
 ﻿using System;
 using System.Collections;
-using UnityEngine;
-
-public enum Speed
-{
-    // Game is paused
-    Paused,
-    // 1 second == 1 in-game hour
-    Normal,
-    // 0.5 second == 1 in-game hour
-    Faster,
-    // 0.2 second == 1 in-game hour
-    Fastest
-}
+using System.Collections.Generic;
 
 /// <summary>
 /// Manages the time simulation.
 /// </summary>
 public class TimeSimulation
 {
-    private DateTime defaultStartDate = new DateTime(2017, 1, 1, 0, 0, 0);
+    public enum Event {
+        Update
+    }
 
-    private Speed speed = Speed.Normal;
+    private Speed speed = Settings.Time.DefaultSpeed;
 
-    private DateTime date;
+    private DateTime date = Settings.Time.DefaultStartDate;
 
     // Time (in seconds) since the simulation was lastly updated
     private float timeSinceUpdate = 0;
 
-    // Callback when time changes
-    private Action<DateTime> onUpdate;
-
-    public TimeSimulation(DateTime startTime, Action<DateTime> onUpdate)
-    {
-        date = startTime == DateTime.MinValue ? defaultStartDate : startTime;
-        this.onUpdate = onUpdate;
-    }
+    // Event subscriptions
+    private Dictionary<Event, List<Action<DateTime>>> subscriptions = new Dictionary<Event, List<Action<DateTime>>>();
 
     public void Update(float deltaTime)
     {
@@ -63,7 +47,7 @@ public class TimeSimulation
         {
             date = date.AddHours(hoursToAdd);
             timeSinceUpdate = timeSinceUpdate % factor;
-            onUpdate(date);
+            InvokeSubscriptions(Event.Update, date);
         }
     }
 
@@ -76,5 +60,50 @@ public class TimeSimulation
     public DateTime GetDate()
     {
         return date;
+    }
+
+    public void SetDate(DateTime date)
+    {
+        this.date = date;
+    }
+
+    /// <summary>
+    /// Register an subscription to an event
+    /// </summary>
+    /// <param name="event">Event to register to</param>
+    /// <param name="action">The action to execute</param>
+    public void On(Event e, Action<DateTime> action) {
+        if (!subscriptions.ContainsKey(e))
+        {
+            subscriptions[e] = new List<Action<DateTime>>();
+        }
+        subscriptions[e].Add(action);
+    }
+
+    /// <summary>
+    /// Removes a subscription for an event
+    /// </summary>
+    /// <param name="event">Event to unregister from</param>
+    /// <param name="action">Action to remove</param>
+    public void Off(Event e, Action<DateTime> action)
+    {
+        if (!subscriptions.ContainsKey(e))
+        {
+            subscriptions[e] = new List<Action<DateTime>>();
+        }
+        subscriptions[e].Remove(action);
+    }
+
+    private void InvokeSubscriptions(Event e, DateTime date)
+    {
+        List<Action<DateTime>> subs = subscriptions[e];
+        if (subs == null)
+        {
+            return;
+        }
+        foreach (Action<DateTime> action in subs)
+        {
+            action(date);
+        }
     }
 }
