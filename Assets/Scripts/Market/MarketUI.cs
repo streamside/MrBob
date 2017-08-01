@@ -30,7 +30,6 @@ public class MarketUI : MonoBehaviour
         int i = 1;
         foreach (AvailableJob job in GameManager.instance.marketManager.GetJobs())
         {
-            Debug.Log("A Job " + job);
             GameObject jobTile = Instantiate(jobTilePrefab);
 
             switch (i)

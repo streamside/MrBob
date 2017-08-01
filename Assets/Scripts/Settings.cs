@@ -11,6 +11,7 @@ public static class Settings
     public static class HUD
     {
         public static string DateUIName = "Date";
+
         public static string MoneyUIName = "Money";
     }
 

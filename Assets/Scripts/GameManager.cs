@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -16,14 +17,14 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance = null;
 
     [HideInInspector]
-    public MarketManager marketManager;
+    public MarketManager marketManager = new MarketManager();
     [HideInInspector]
-    public JobManager jobManager;
+    public JobManager jobManager = new JobManager();
     [HideInInspector]
-    public EmployeeManager employeeManager;
+    public EmployeeManager employeeManager = new EmployeeManager();
 
     [HideInInspector]
-    public TimeSimulation timeSimulation;
+    public TimeSimulation timeSimulation = new TimeSimulation();
 
     private int money = Settings.StartingMoney;
 
@@ -43,10 +44,6 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        dateText = GameObject.Find(Settings.HUD.DateUIName).GetComponent<Text>();
-        moneyText = GameObject.Find(Settings.HUD.MoneyUIName).GetComponent<Text>();
-        UpdateDateUI(timeSimulation.GetDate());
-        UpdateMoneyUI();
     }
 
     void Update ()
@@ -54,12 +51,30 @@ public class GameManager : MonoBehaviour {
         timeSimulation.Update(Time.deltaTime);
 	}
 
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // Code executed when every scene is loaded
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Find references in the newly loaded scene
+        dateText = GameObject.Find(Settings.HUD.DateUIName).GetComponent<Text>();
+        moneyText = GameObject.Find(Settings.HUD.MoneyUIName).GetComponent<Text>();
+
+        UpdateDateUI(timeSimulation.GetDate());
+        UpdateMoneyUI();
+    }
+
+    // Code executed once when the game is started
     void InitGame()
     {
-        marketManager = new MarketManager();
-        jobManager = new JobManager();
-        employeeManager = new EmployeeManager();
-        timeSimulation = new TimeSimulation();
         timeSimulation.On(TimeSimulation.Event.Update, UpdateDateUI);
     }
 
@@ -71,5 +86,10 @@ public class GameManager : MonoBehaviour {
     void UpdateMoneyUI()
     {
         moneyText.text = money + Settings.Currency;
+    }
+
+    public void LoadScene(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 }

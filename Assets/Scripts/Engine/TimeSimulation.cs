@@ -67,6 +67,9 @@ public class TimeSimulation
         this.date = date;
     }
 
+    // Use Events + delegates described on MSDN instead:
+    // https://msdn.microsoft.com/en-us/library/aa645739(v=vs.71).aspx
+
     /// <summary>
     /// Register an subscription to an event
     /// </summary>

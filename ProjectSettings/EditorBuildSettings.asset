@@ -4,4 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Jobs.unity
+    guid: 524a9552a7444734a94f2fd819b7c9ff
+  - enabled: 1
+    path: Assets/Scenes/Market.unity
+    guid: 0fa123c1c946e5d409e7d213b97bd69a
