@@ -4,15 +4,30 @@ using System.Collections.Generic;
 
 public class JobManager
 {
-    private List<Job> jobs = new List<Job>();
+    private List<WorkingJob> jobs = new List<WorkingJob>();
 
+    public JobManager()
+    {
+        GenerateJobs();
+    }
 
-    public List<Job> GetJobs()
+    private void GenerateJobs()
+    {
+        WorkingJob job = new WorkingJob("Bathroom renovation", "Brand new bathroom with nice furniture", 250, 10000);
+        job.Quality = 10;
+        job.Progress = 200;
+        jobs.Add(job);
+
+        jobs.Add(new WorkingJob("Broken sink", "My sink is not working. Help me!", 8, 500));
+        jobs.Add(new WorkingJob("Broken sink again", "My sink is not working. Help me!", 8, 400));
+    }
+
+    public List<WorkingJob> GetJobs()
     {
         return jobs;
     }
 
-    public void AddJob(Job job)
+    public void AddJob(WorkingJob job)
     {
         jobs.Add(job);
     }

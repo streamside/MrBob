@@ -2,7 +2,7 @@
 
 public class MarketManager {
 
-    private List<AvailableJob> jobs = new List<AvailableJob>();
+    private List<Job> jobs = new List<Job>();
 
 	public MarketManager() {
         GenerateJobs();
@@ -10,12 +10,12 @@ public class MarketManager {
 	
     private void GenerateJobs()
     {
-        jobs.Add(new AvailableJob("Bathroom renovation", "Brand new bathroom with nice furniture", 250, 10000));
-        jobs.Add(new AvailableJob("Broken sink", "My sink is not working. Help me!", 8, 500));
-        jobs.Add(new AvailableJob("Broken sink again", "My sink is not working. Help me!", 8, 400));
+        jobs.Add(new Job("Bathroom renovation", "Brand new bathroom with nice furniture", 250, 10000));
+        jobs.Add(new Job("Broken sink", "My sink is not working. Help me!", 8, 500));
+        jobs.Add(new Job("Broken sink again", "My sink is not working. Help me!", 8, 400));
     }
 
-    public List<AvailableJob> GetJobs()
+    public List<Job> GetJobs()
     {
         return jobs;
     }

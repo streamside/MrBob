@@ -28,7 +28,7 @@ public class MarketUI : MonoBehaviour
         int x = startX;
         int y = startY;
         int i = 1;
-        foreach (AvailableJob job in GameManager.instance.marketManager.GetJobs())
+        foreach (Job job in GameManager.instance.marketManager.GetJobs())
         {
             GameObject jobTile = Instantiate(jobTilePrefab);
 

@@ -1,6 +1,6 @@
-﻿public class AvailableJob
+﻿public class Job
 {
-    public AvailableJob(string title, string description, int size, int price)
+    public Job(string title, string description, int size, int price)
     {
         Title = title;
         Description = description;
