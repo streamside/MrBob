@@ -37,7 +37,37 @@ public class WorkingJob : Job
     }
 
     // Number of hours spent on the job
-    public int Progress { get; set; }
+    private int progress;
+    public int Progress {
+        get
+        {
+            return progress;
+        }
+        set
+        {
+            if (value < 0)
+            {
+                progress = 0;
+            }
+            else
+            {
+                progress = value > Size ? Size : value;
+            }
+        }
+    }
+
+    public void HourPassed()
+    {
+        Progress++;
+        if (Progress > 0 && Status == JobStatus.Waiting)
+        {
+            Status = JobStatus.WorkInProgress;
+        }
+        else if (Progress == Size)
+        {
+            Status = JobStatus.Complete;
+        }
+    }
 
     /// <summary>
     /// Gets the progress in relative numbers. 0 means that nothing has started and 1 means that everything is done.

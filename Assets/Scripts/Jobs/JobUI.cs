@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,10 +20,13 @@ public class JobUI : MonoBehaviour {
         tileHeight = (int)rt.rect.height;
         jobHolder = new GameObject("Jobs").transform;
         UpdateUI();
+        GameManager.instance.timeSimulation.On(TimeSimulation.Event.Update, HourPassed);
     }
 
     void UpdateUI()
     {
+        ClearJobs();
+
         int pos = 0;
         foreach (WorkingJob job in GameManager.instance.jobManager.GetJobs())
         {
@@ -52,7 +54,7 @@ public class JobUI : MonoBehaviour {
                         break;
                     case "ProgressText":
                         // Text
-                        text.text = job.GetRelativeProgress()*100 + "%";
+                        text.text = Math.Round(job.GetRelativeProgress()*100) + "%";
                         // Progress bar
                         GameObject progressPart = GameObjectUtils.FindInHierachyByName(text.transform.parent.gameObject, "ProgressPart");
                         RectTransform rt = progressPart.GetComponent<RectTransform>();
@@ -65,5 +67,19 @@ public class JobUI : MonoBehaviour {
 
             pos++;
         }
+    }
+
+    private void ClearJobs()
+    {
+        foreach (Transform child in jobHolder)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
+    private void HourPassed(DateTime dateTime)
+    {
+        GameManager.instance.jobManager.HourPassed();
+        UpdateUI();
     }
 }

@@ -17,14 +17,13 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance = null;
 
     [HideInInspector]
+    public TimeSimulation timeSimulation = new TimeSimulation();
+    [HideInInspector]
     public MarketManager marketManager = new MarketManager();
     [HideInInspector]
     public JobManager jobManager = new JobManager();
     [HideInInspector]
     public EmployeeManager employeeManager = new EmployeeManager();
-
-    [HideInInspector]
-    public TimeSimulation timeSimulation = new TimeSimulation();
 
     private int money = Settings.StartingMoney;
 
@@ -40,10 +39,6 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         InitGame();
-    }
-
-    void Start()
-    {
     }
 
     void Update ()

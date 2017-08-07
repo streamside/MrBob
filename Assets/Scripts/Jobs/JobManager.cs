@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 
 public class JobManager
@@ -30,5 +30,13 @@ public class JobManager
     public void AddJob(Job job)
     {
         jobs.Add(new WorkingJob(job));
+    }
+
+    public void HourPassed()
+    {
+        foreach (WorkingJob job in jobs)
+        {
+            job.HourPassed();
+        }
     }
 }
