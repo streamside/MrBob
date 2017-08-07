@@ -18,8 +18,8 @@ public class JobManager
         job.Progress = 200;
         jobs.Add(job);
 
-        jobs.Add(new WorkingJob("Broken sink", "My sink is not working. Help me!", 8, 500));
-        jobs.Add(new WorkingJob("Broken sink again", "My sink is not working. Help me!", 8, 400));
+        // jobs.Add(new WorkingJob("Broken sink", "My sink is not working. Help me!", 8, 500));
+        // jobs.Add(new WorkingJob("Broken sink again", "My sink is not working. Help me!", 8, 400));
     }
 
     public List<WorkingJob> GetJobs()
@@ -27,8 +27,8 @@ public class JobManager
         return jobs;
     }
 
-    public void AddJob(WorkingJob job)
+    public void AddJob(Job job)
     {
-        jobs.Add(job);
+        jobs.Add(new WorkingJob(job));
     }
 }

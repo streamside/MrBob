@@ -19,4 +19,9 @@ public class MarketManager {
     {
         return jobs;
     }
+
+    public void RemoveJob(Job job)
+    {
+        jobs.Remove(job);
+    }
 }

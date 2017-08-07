@@ -17,6 +17,8 @@ public class WorkingJob : Job
         Quality = 0;
     }
 
+    public WorkingJob(Job job) : this(job.Title, job.Description, job.Size, job.Price) { }
+
     public JobStatus Status { get; set; }
 
     public string GetStatusToDisplay()
