@@ -7,7 +7,7 @@ public class MarketUI : MonoBehaviour
     public GameObject jobTilePrefab;
     private Transform jobHolder;
     private int startX = -275;
-    private int startY = 150;
+    private int startY = 130;
     private int marginX = 50;
     private int marginY = 50;
     private int tileWidth;
@@ -48,6 +48,11 @@ public class MarketUI : MonoBehaviour
 
     private void ClearJobs()
     {
+        if (jobHolder == null)
+        {
+            return;
+        }
+
         foreach (Transform child in jobHolder)
         {
             Destroy(child.gameObject);

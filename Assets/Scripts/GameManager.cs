@@ -41,7 +41,12 @@ public class GameManager : MonoBehaviour {
         InitGame();
     }
 
-    void Update ()
+    void Start()
+    {
+        jobManager.Start();
+    }
+
+    void Update()
     {
         timeSimulation.Update(Time.deltaTime);
 	}
@@ -49,11 +54,13 @@ public class GameManager : MonoBehaviour {
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        TimeSimulation.OnTimeChange += UpdateDateUI;
     }
 
     void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        TimeSimulation.OnTimeChange -= UpdateDateUI;
     }
 
     // Code executed when every scene is loaded
@@ -70,7 +77,6 @@ public class GameManager : MonoBehaviour {
     // Code executed once when the game is started
     void InitGame()
     {
-        timeSimulation.On(TimeSimulation.Event.Update, UpdateDateUI);
     }
 
     void UpdateDateUI(DateTime date)

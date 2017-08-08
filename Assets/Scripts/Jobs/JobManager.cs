@@ -6,9 +6,15 @@ public class JobManager
 {
     private List<WorkingJob> jobs = new List<WorkingJob>();
 
-    public JobManager()
+    public delegate void JobChangeAction();
+    public static event JobChangeAction OnJobChange;
+
+    public void Start()
     {
         GenerateJobs();
+
+        // TODO Unsubscribe never done
+        TimeSimulation.OnHourChange += HourPassed;
     }
 
     private void GenerateJobs()
@@ -30,13 +36,23 @@ public class JobManager
     public void AddJob(Job job)
     {
         jobs.Add(new WorkingJob(job));
+
+        if (OnJobChange != null)
+        {
+            OnJobChange();
+        }
     }
 
-    public void HourPassed()
+    public void HourPassed(DateTime dateTime)
     {
         foreach (WorkingJob job in jobs)
         {
             job.HourPassed();
+        }
+
+        if (OnJobChange != null)
+        {
+            OnJobChange();
         }
     }
 }

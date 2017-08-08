@@ -8,7 +8,7 @@ public class JobUI : MonoBehaviour {
 
     private Transform jobHolder;
     private int startX = 0;
-    private int startY = 200;
+    private int startY = 180;
     private int marginY = 25;
     private int tileHeight;
     private int progressBarMaxSize = 450;
@@ -20,7 +20,16 @@ public class JobUI : MonoBehaviour {
         tileHeight = (int)rt.rect.height;
         jobHolder = new GameObject("Jobs").transform;
         UpdateUI();
-        GameManager.instance.timeSimulation.On(TimeSimulation.Event.Update, HourPassed);
+    }
+
+    void OnEnable()
+    {
+        JobManager.OnJobChange += UpdateUI;
+    }
+
+    void OnDisable()
+    {
+        JobManager.OnJobChange -= UpdateUI;
     }
 
     void UpdateUI()
@@ -71,15 +80,14 @@ public class JobUI : MonoBehaviour {
 
     private void ClearJobs()
     {
+        if (jobHolder == null)
+        {
+            return;
+        }
+
         foreach (Transform child in jobHolder)
         {
             Destroy(child.gameObject);
         }
-    }
-
-    private void HourPassed(DateTime dateTime)
-    {
-        GameManager.instance.jobManager.HourPassed();
-        UpdateUI();
     }
 }

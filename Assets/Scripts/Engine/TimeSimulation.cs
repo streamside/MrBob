@@ -6,10 +6,6 @@ using System.Collections.Generic;
 /// </summary>
 public class TimeSimulation
 {
-    public enum Event {
-        Update
-    }
-
     private Speed speed = Settings.Time.DefaultSpeed;
 
     private DateTime date = Settings.Time.DefaultStartDate;
@@ -17,8 +13,11 @@ public class TimeSimulation
     // Time (in seconds) since the simulation was lastly updated
     private float timeSinceUpdate = 0;
 
-    // Event subscriptions
-    private Dictionary<Event, List<Action<DateTime>>> subscriptions = new Dictionary<Event, List<Action<DateTime>>>();
+    public delegate void HourChangeAction(DateTime datetime);
+    public static event HourChangeAction OnHourChange;
+
+    public delegate void TimeChangeAction(DateTime datetime);
+    public static event TimeChangeAction OnTimeChange;
 
     public void Update(float deltaTime)
     {
@@ -46,7 +45,14 @@ public class TimeSimulation
         {
             date = date.AddHours(hoursToAdd);
             timeSinceUpdate = timeSinceUpdate % factor;
-            InvokeSubscriptions(Event.Update, date);
+            if (OnHourChange != null)
+            {
+                OnHourChange(date);
+            }
+            if (OnTimeChange != null)
+            {
+                OnTimeChange(date);
+            }
         }
     }
 
@@ -64,48 +70,5 @@ public class TimeSimulation
     public void SetDate(DateTime date)
     {
         this.date = date;
-    }
-
-    // Use Events + delegates described on MSDN instead:
-    // https://msdn.microsoft.com/en-us/library/aa645739(v=vs.71).aspx
-
-    /// <summary>
-    /// Register an subscription to an event
-    /// </summary>
-    /// <param name="event">Event to register to</param>
-    /// <param name="action">The action to execute</param>
-    public void On(Event e, Action<DateTime> action) {
-        if (!subscriptions.ContainsKey(e))
-        {
-            subscriptions[e] = new List<Action<DateTime>>();
-        }
-        subscriptions[e].Add(action);
-    }
-
-    /// <summary>
-    /// Removes a subscription for an event
-    /// </summary>
-    /// <param name="event">Event to unregister from</param>
-    /// <param name="action">Action to remove</param>
-    public void Off(Event e, Action<DateTime> action)
-    {
-        if (!subscriptions.ContainsKey(e))
-        {
-            subscriptions[e] = new List<Action<DateTime>>();
-        }
-        subscriptions[e].Remove(action);
-    }
-
-    private void InvokeSubscriptions(Event e, DateTime date)
-    {
-        List<Action<DateTime>> subs = subscriptions[e];
-        if (subs == null)
-        {
-            return;
-        }
-        foreach (Action<DateTime> action in subs)
-        {
-            action(date);
-        }
     }
 }
